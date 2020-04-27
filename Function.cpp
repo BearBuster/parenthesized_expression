@@ -1,37 +1,60 @@
 #include "Function.h"
 
-pNode makeTree(string data , int priority ){
-    pNode Node = new node;
-    //Node->data = data;
-    //Node->left = nullptr;
-    //Node->right = nullptr;
-
-    int breakes = 0;
-    int breakesCounter = 0 , i ;
-    string str1;
-    string str2;
-    if (data[0] == '(' && data[data.size()-1] == ')') {
-        for (i = 0; i < data.size(); i++) {
-            (data[i] == '(')?breakesCounter++:(data[i] == ')')?breakesCounter--:breakesCounter;
-            if( breakesCounter < 0 ) break;
-            else{
-                data = data.substr(1 , data.size()-2);
-                priority = 1;
-            }
+pNode makeTree(string s){
+    pNode root;
+    root = new node;
+    string str1 , str2;
+    int prt , minPrt = 100 , k , i;
+    if( s.size() == 1 ){
+        root->data = s[0];
+        root->left = nullptr;
+        root->right = nullptr;
+        return root;
+    }
+    for( i = 0 ; i < s.size() ; i++){
+        prt = priority(s[i]);
+        if( prt <= minPrt){
+            minPrt = prt;
+            k = i;
         }
     }
-    for( i = 0 ; i < data.size() , i++ ){
-        (data[i] == '(')?breakesCounter++:(data[i] == ')')?breakesCounter--:breakesCounter;
-        if(breakesCounter != 0) continue;
-
-
-    return nullptr;
+    root->data = s[k];
+    str1 = s.substr(0 , k);
+    str2 = s.substr(k+1 , s.size() - k - 1);
+    root->left = makeTree(str1);
+    root->right = makeTree(str2);
+    return root;
+}
+int priority ( char ch){
+    switch (ch){
+        case '+':
+        case '-':
+            return 1;
+        case '*':
+        case '/':
+            return 2;
+    }
+    return 90;
 }
 
-int priorityF( char ch ){
-        switch (ch){
-            case '+':case '-':return 1;
-            case '*':case '/':return 2;
-            }
-            return 3;
-        }
+void print( pNode root ){
+    if( !root )
+        return;
+    print(root->left);
+    cout << root->data << " ";
+    print(root->right);
+}
+int calc(pNode root){
+    if(!root->left)
+        return root->data - '0';
+    int num1,num2;
+    num1 = calc(root->left);
+    num2 = calc(root->right);
+    switch(root->data){
+        case '+': return num1 + num2;
+        case '-': return num1 - num2;
+        case '*': return num1 * num2;
+        case '/': return num1 / num2;
+    }
+    return 0;
+}

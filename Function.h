@@ -5,12 +5,14 @@
 using namespace std;
 
 struct node{
-    string data;
+    char data;
     node *left , *right;
 };
 typedef node *pNode;
 
-pNode makeTree( string , int );
-int priorityF( string );
+pNode makeTree( string );
+int priority ( char );
+void print( pNode );
+int calc( pNode );
 
 #endif

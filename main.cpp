@@ -1,11 +1,11 @@
 #include "Function.h"
 
 int main() {
-    string s = {"0123456789"};
-    string str = {"la"};
-    cout << str.size() << endl;
-    cout << s << endl;
-    s = s.substr(1 , s.size()-2);
-    cout << s;
+    int result;
+    pNode Tree;
+    string s = {"1+2*3"};
+    Tree = makeTree(s);
+    print(Tree);
+    cout << calc(Tree);
     return 0;
 }
