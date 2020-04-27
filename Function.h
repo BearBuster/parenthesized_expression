@@ -14,5 +14,4 @@ pNode makeTree( string );
 int priority ( char );
 void print( pNode );
 int calc( pNode );
-
 #endif

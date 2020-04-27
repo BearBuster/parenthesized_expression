@@ -3,7 +3,7 @@
 int main() {
     int result;
     pNode Tree;
-    string s = {"1+2*3"};
+    string s = {"(1+1)*(3+3)"};
     Tree = makeTree(s);
     print(Tree);
     cout << calc(Tree);

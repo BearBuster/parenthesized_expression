@@ -4,19 +4,35 @@ pNode makeTree(string s){
     pNode root;
     root = new node;
     string str1 , str2;
-    int prt , minPrt = 100 , k , i;
+    int prt , minPrt = 100 , k , i  = 0 , net = 0 ;
     if( s.size() == 1 ){
         root->data = s[0];
         root->left = nullptr;
         root->right = nullptr;
         return root;
     }
-    for( i = 0 ; i < s.size() ; i++){
-        prt = priority(s[i]);
-        if( prt <= minPrt){
-            minPrt = prt;
-            k = i;
+    if(s[0] == '(' && s[s.size()-1] == ')'){
+        for(i = 1 ; i < s.size()-2 ; i++ ){
+            if(s[i] == '(')
+                net++;
+            if(s[i] == ')')
+                net--;
+            if(net < 0)
+                break;
         }
+        if(net == 0)
+            s = s.substr(1 , s.size()-2);
+    }
+    net = 0;
+    for( i = 0 ; i < s.size() ; i++){
+        if(net == 0 ) {
+            prt = priority(s[i]);
+            if (prt <= minPrt) {
+                minPrt = prt;
+                k = i;
+            }
+        }
+        (s[i] == '(') ? net++ : (s[i] == ')') ? net-- : net;
     }
     root->data = s[k];
     str1 = s.substr(0 , k);
@@ -25,6 +41,7 @@ pNode makeTree(string s){
     root->right = makeTree(str2);
     return root;
 }
+
 int priority ( char ch){
     switch (ch){
         case '+':
